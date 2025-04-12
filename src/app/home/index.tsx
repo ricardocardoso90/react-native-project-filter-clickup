@@ -1,24 +1,34 @@
 import { useState } from "react";
 import { styles } from "./styles";
-import { FlatList, View } from "react-native";
+import { FILTERS } from "@/utils/filters";
+import { FlatList, useWindowDimensions, View } from "react-native";
 import { Filter, FilterProps } from "@/components/filter";
 import Svg, { RadialGradient, Stop, Rect } from "react-native-svg";
 
-const FILTERS: FilterProps[] = [
-  { name: "My Work", icon: "schedule", colors: ["#FF8C00", "#FF0080"] },
-  { name: "Recent", icon: "history", colors: ["#6A5ACD", "#00FFFF"] },
-  { name: "Favorites", icon: "star", colors: ["#FF4500", "#FFD700"] },
-  { name: "Spaces", icon: "splitscreen", colors: ["#32CD32", "#008080"] },
-  { name: "Docs", icon: "description", colors: ["#FF1493", "#9400D3"] },
-  { name: "Dashboard", icon: "dashboard", colors: ["#1E90FF", "#00FA9A"] },
-];
-
 export function Home() {
   const [filter, setFilter] = useState(FILTERS[0]);
+  const [centerX, setCenterX] = useState("14.17%");
+
+  const dimensions = useWindowDimensions();
+
+  function handleItemPress(item: FilterProps, event: any) {
+    const locationX = event.nativeEvent.pageX;
+    const percentage = (locationX / dimensions.width) * 100;
+
+    setCenterX(`${percentage}%`);
+    setFilter(item);
+  };
 
   return (
     <View style={styles.container}>
-      <Svg height="100%" width="100%" style={styles.gradient}></Svg>
+      <Svg height="100%" width="100%" style={styles.gradient}>
+        <RadialGradient id="gradient" cx={centerX} cy="50%" rx="60%" ry="60%">
+          <Stop offset="70%" stopColor={filter.colors[0]} stopOpacity={0.3} />
+          <Stop offset="100%" stopColor="transparent" stopOpacity={0.1} />
+        </RadialGradient>
+
+        <Rect width="100%" height="100%" fill="url(#gradient)" />
+      </Svg>
 
       <FlatList
         data={FILTERS}
@@ -29,7 +39,7 @@ export function Home() {
             name={item.name}
             colors={item.colors}
             isSelected={filter.name === item.name}
-            onPress={() => setFilter(item)}
+            onPress={(event) => handleItemPress(item, event)}
           />
         )}
         horizontal
