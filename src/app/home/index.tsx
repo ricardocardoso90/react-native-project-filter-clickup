@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { styles } from "./styles";
 import { FILTERS } from "@/utils/filters";
-import { FlatList, useWindowDimensions, View } from "react-native";
+import { FlatList, Text, useWindowDimensions, View } from "react-native";
 import { Filter, FilterProps } from "@/components/filter";
 import Svg, { RadialGradient, Stop, Rect } from "react-native-svg";
 
@@ -47,7 +47,9 @@ export function Home() {
         style={styles.list}
         contentContainerStyle={styles.listContent}
       />
-      <View style={styles.content} />
+      <View style={styles.content}>
+        <Text style={styles.text}>Restante do App!! 😆</Text>
+      </View>
     </View>
   )
 }

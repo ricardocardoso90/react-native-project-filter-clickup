@@ -21,9 +21,18 @@ export const styles = StyleSheet.create({
   },
   content: {
     // flex: 1,
-    height: '80%',
+    height: '92%',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
-    backgroundColor: "#CECECE",
+    backgroundColor: "#222",
+
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    color: '#CCC',
+    fontSize: 24,
+    fontWeight: '400',
   }
 });
